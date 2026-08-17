@@ -4,8 +4,8 @@
 hard-flash is a DeepSeek Harness (dsh) agent preset for making large engineering tasks deliberate, integrated, and verifiable from the first turn.  
 hard-flash 是一个面向 DeepSeek Harness（dsh）的 agent preset，目标是在第一轮就让大型工程任务进入深思考、强集成、可验证的工作状态。  
   
-The preset is designed for users who prefer correctness over speed, full capability over toy demonstrations, and real-path verification over code that merely looks plausible.  
-这个 preset 适合优先追求正确率、完整能力和真实用户路径验证，而不是追求速度或只交付看起来可行的示例的用户。  
+**The preset is designed for users who prefer correctness over speed, full capability over toy demonstrations, and real-path verification over code that merely looks plausible**.  
+**这个 preset 适合优先追求正确率、完整能力和真实用户路径验证，而不是追求速度或只交付看起来可行的示例的用户**。  
   
 The package is intentionally small: the preset composition declares the available dsh tools, while router-bootstrap.mjs controls the first-turn routing and the shared engineering discipline.  
 本包有意保持精简：preset composition 负责声明 dsh 工具，router-bootstrap.mjs 负责首轮工具路由和统一的工程执行纪律。  
@@ -28,17 +28,17 @@ Its strongest practical signal is that trajectory is not the same thing as quali
 The same discussion also reports that prompt injection can change phrases such as `we`, `let me`, and `I` without reliably changing the quality of the produced software.  
 同一讨论还记录了提示词注入可以改变 `we`、`let me`、`I` 等表达方式，但并不能可靠地改变生成软件的质量。  
   
-In that evidence, prompting behaves more like a behavior switch than a quality switch, while implementation details, verification depth, and accidental failures remain decisive.  
-在这些证据中，提示词更像是行为开关而不是质量开关，而实现细节、验证深度和偶发失败仍然是决定性因素。  
+In that evidence,**prompting behaves more like a behavior switch than a quality switch, while implementation details, verification depth, and accidental failures remain decisive**.  
+在这些证据中，**提示词更像是行为开关而不是质量开关，而实现细节、验证深度和偶发失败仍然是决定性因素**。  
   
 Issue #2 records a related compatibility question: dsh may preserve the existing system prompt for a non-official DeepSeek API and append `You are a helpful assistant.` instead of deleting or replacing the original prompt.  
 Issue #2 记录了相关的兼容性问题：对于非官方 DeepSeek API，dsh 可能保留原有系统提示词，并在后面追加 `You are a helpful assistant.`，而不是删除或覆盖原提示词。  
   
-That issue is not a controlled quality benchmark, but it is consistent with the practical observation that even a small late prompt addition can change model behavior without clearing the original system prompt.  
-这个 issue 不是严格的质量基准实验，但它与一个实践观察相符：即使不清除原系统提示词，只在后面追加一句很短的提示，也可能改变模型行为。  
+That issue is not a controlled quality benchmark, but it is consistent with the practical observation that **even a small late prompt addition can change model behavior without clearing the original system prompt**.  
+这个 issue 不是严格的质量基准实验，但它与一个实践观察相符：**即使不清除原系统提示词，只在后面追加一句很短的提示，也可能改变模型行为**。  
   
-Our working hypothesis is therefore stronger than “make the reasoning look deeper”: Flash quality is often dominated by hallucination rate, missed integration assumptions, and whether verification catches the errors before delivery.  
-因此，我们的工作假设不是“让思维链看起来更深”：Flash 的质量往往更受幻觉率、遗漏的集成假设以及验证是否能在交付前捕获错误的影响。  
+Our working hypothesis is therefore stronger than “make the reasoning look deeper”: **Flash quality is often dominated by hallucination rate, missed integration assumptions, and whether verification catches the errors before delivery** .  
+因此，我们的工作假设不是“让思维链看起来更深”：**Flash 的质量往往更受幻觉率、遗漏的集成假设以及验证是否能在交付前捕获错误的影响**。  
   
 When the same class of task sometimes works and sometimes fails under similar visible reasoning patterns, the experience feels like a draw from a high-variance distribution; we use “抽卡” as shorthand for that run-to-run uncertainty.  
 当相似的可见思维链模式下，同类任务有时成功、有时失败时，体验就像从高方差分布中抽取结果；我们用“抽卡”简称这种运行间不确定性。  
@@ -52,26 +52,26 @@ This is an engineering hypothesis and a design rationale, not a universal theore
 hard-flash responds by trading time and token budget for a lower probability of hallucinated or unverified delivery.  
 hard-flash 的应对方式是用更多时间和 token 预算，换取更低的幻觉交付和未经验证交付概率。  
   
-In the reported comparison, the same hard-flash prompt used approximately 1.5x wall-clock time, 5x input tokens, and 3x output tokens compared with the lighter setup.  
-在这次对比记录中，同一段 hard-flash 提示词相较于dsh-router-standard 0.2.0 提示词配置大约使用了 1.5 倍工作时间、5 倍输入 token 和 3 倍输出 token。  
+In the reported comparison, the same hard-flash prompt used approximately **1.5x wall-clock time, 5x input tokens, and 3x output tokens** compared with the lighter setup.  
+在这次对比记录中，同一段 hard-flash 提示词相较于dsh-router-standard 0.2.0 提示词配置大约使用了 **1.5 倍工作时间、5 倍输入 token 和 3 倍输出 token**。  
   
 Those ratios are observations from this comparison, not a universal benchmark or a promise for every provider and task.  
 这些比例是本次对比中的观察值，不是适用于所有 provider 和任务的通用基准，也不是固定承诺。  
   
-The design goal is simple: spend more budget on inspection, architecture, integration, checkpoints, and real-path verification when correctness matters more than latency.  
-设计目标很直接：当正确率比延迟更重要时，把更多预算投入到检查、架构、集成、checkpoint 和真实路径验证上。  
+The design goal is simple: **spend more budget on inspection, architecture, integration, checkpoints, and real-path verification when correctness matters more than latency**.  
+设计目标很直接：**当正确率比延迟更重要时，把更多预算投入到检查、架构、集成、checkpoint 和真实路径验证上**。  
   
 ### Controlled comparison: a browser Chinese-chess task  
 ### 受控对比：中国象棋网页任务  
   
-No vision-capable model was introduced in this comparison; the intended variable was the system prompt rather than a model upgrade.  
-这次对比没有引入视觉模型；有意控制的变量是系统提示词，而不是更换模型。  
+**No vision-capable model** was introduced in this comparison; the intended variable was the **system prompt** rather than a model upgrade.  
+这次对比没有引入**视觉模型**；有意控制的变量是**系统提示词**，而不是更换模型。  
   
-The task was to build a browser-based Chinese chess game with AI vs AI and player vs AI modes, while researching or fetching suitable materials, assets, and textures online when necessary.  
-任务是制作一个网页版中国象棋游戏，包含 AI vs AI 和玩家 vs AI 模式，并在需要时联网查找合适的资料、素材和纹理。  
+**The task was to build a browser-based Chinese chess game with AI vs AI and player vs AI modes, while researching or fetching suitable materials, assets, and textures online when necessary. **
+**提示词：制作一个网页版中国象棋游戏，有AI vs AI 以及玩家 vs AI，需要资料 素材 纹理等可以联网查找**
   
-The baseline used the dsh-router-standard 0.2.0 prompt for one turn without runtime injection.  
-基线使用 dsh-router-standard 0.2.0 的提示词运行一轮，并且没有使用运行时注入。  
+The baseline used the **dsh-router-standard 0.2.0 prompt** for one turn **without runtime injection**.  
+基线使用 **dsh-router-standard 0.2.0** 的提示词运行一轮，并且没有**使用运行时注入**。  
   
 The baseline result was visually usable, but the player-vs-AI flow contained a reported bug: changing the difficulty could switch the page back to AI vs AI.  
 基线结果在视觉上可用，但玩家 vs AI 流程存在一个已报告的 bug：切换难度后页面可能会变回 AI vs AI。  
@@ -84,8 +84,8 @@ The baseline result was visually usable, but the player-vs-AI flow contained a r
 *Figure 1a — Additional baseline screenshot from the same comparison set.*  
 *图 1a——同一对比组中的另一张基线截图。*  
   
-The hard-flash run used the same task with the strong engineering prompt described in this repository.  
-hard-flash 运行同一个任务，使用本仓库描述的强工程约束型系统提示词。  
+The hard-flash run used the same task with the **strong engineering prompt** described in this repository.  
+hard-flash 运行同一个任务，使用本仓库描述的**强工程约束型系统提示词**。  
   
 The resulting interface included a richer board presentation, move history, state controls, and a deeper verification-oriented workflow.  
 最终界面包含更丰富的棋盘表现、着法记录、状态控制和更偏向验证的工作流程。  
@@ -106,8 +106,8 @@ The reported phrase counts were as follows; they are diagnostic signals from the
 | hard-flash | 356 | 99 | 198 | 66 | 1 |  
 | minimal | 0 | 4 | 218 | 98 | 87 |  
   
-The key design conclusion is not that one phrase pattern is intrinsically better, but that the prompt should force engineering evidence to matter more than conversational style.  
-关键设计结论不是某一种短语模式天然更好，而是系统提示词应该让工程证据比对话风格更重要。  
+**The key design conclusion is not that one phrase pattern is intrinsically better, but that the prompt should force engineering evidence to matter more than conversational style.**  
+**关键设计结论不是某一种短语模式天然更好，而是系统提示词应该让工程证据比对话风格更重要**。  
   
 hard-flash therefore emphasizes inspect, plan, implement against real interfaces, checkpoint, compile or test, exercise the real user path, and retest after every fix.  
 因此，hard-flash 强调 inspect、plan、基于真实接口实现、checkpoint、编译或测试、运行真实用户路径，并在每次修复后重新测试。  
@@ -124,22 +124,22 @@ hard-flash therefore emphasizes inspect, plan, implement against real interfaces
 ## hard-flash 改变了什么  
   
 The router injects one stable engineering prompt instead of relying on a fragile sequence of late, session-specific prompt mutations.  
-路由器注入一段稳定的工程提示词，不依赖脆弱的、晚到的、按会话变化的提示词动态修改。  
+**注入一段稳定的工程提示词，不依赖脆弱的、晚到的、按会话变化的提示词动态修改**。  
   
 The prompt first reconstructs the current context, then requires deep planning, concrete decomposition, exact interface inspection, incremental checkpoints, and real user-facing verification.  
-这段提示词要求模型先重建当前上下文，再进行深度规划、具体拆解、精确接口检查、增量 checkpoint 和真实用户路径验证。  
+**这段提示词要求模型先重建当前上下文，再进行深度规划、具体拆解、精确接口检查、增量 checkpoint 和真实用户路径验证**。  
   
 Broad build requests are expanded into a concrete implementation specification instead of being silently reduced to a toy example, a mockup, or a disconnected proof of concept.  
-宽泛的 build 需求会被展开为具体实现规格，而不是被悄悄缩水成 toy example、表面 mockup 或脱离系统的 proof of concept。  
+**宽泛的 build 需求会被展开为具体实现规格，而不是被悄悄缩水成 toy example、表面 mockup 或脱离系统的 proof of concept**。  
   
 The model is told to implement against the actual codebase and actual installed interfaces, not against memory, guesses, or invented APIs.  
-模型被要求基于真实代码库和真实安装版本的接口实现，而不是依靠记忆、猜测或虚构 API。  
+**模型被要求基于真实代码库和真实安装版本的接口实现，而不是依靠记忆、猜测或虚构 API**。  
   
 Every completed file or TODO step is treated as a checkpoint where the surrounding architecture, symbols, signatures, state, call path, and integration assumptions are reviewed again.  
-每完成一个文件或 TODO 步骤都要进行 checkpoint，重新检查周边架构、符号、签名、状态、调用路径和集成假设。  
+**每完成一个文件或 TODO 步骤都要进行 checkpoint，重新检查周边架构、符号、签名、状态、调用路径和集成假设**。  
   
 Verification is a loop: test, debug, fix, and retest until the intended user-facing path works correctly.  
-验证是一个闭环：测试、调试、修复、重新测试，直到预期的真实用户路径正确工作。  
+**验证是一个闭环：测试、调试、修复、重新测试，直到预期的真实用户路径正确工作**。  
   
 ## Three first-turn modes  
 ## 三种首轮模式  
@@ -220,7 +220,7 @@ The final phase exercises the real user-facing path, then enters the test, debug
 最后阶段会运行真实用户路径；如果发现任何问题，就进入测试、调试、修复、重新测试的闭环。  
   
 The priority order is correctness, capability, time, and token efficiency.  
-优先级排序是正确率、能力发挥、时间和 token 效率。  
+优先级排序是**正确率 ＞ 能力发挥 ＞ 时间和 ＞ token 效率**。  
   
 ## Repository contents  
 ## 仓库文件  
