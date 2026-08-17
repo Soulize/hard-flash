@@ -67,7 +67,7 @@ The design goal is simple: **spend more budget on inspection, architecture, inte
 **No vision-capable model** was introduced in this comparison; the intended variable was the **system prompt** rather than a model upgrade.  
 这次对比没有引入**视觉模型**；有意控制的变量是**系统提示词**，而不是更换模型。  
   
-**The task was to build a browser-based Chinese chess game with AI vs AI and player vs AI modes, while researching or fetching suitable materials, assets, and textures online when necessary. **
+**The task was to build a browser-based Chinese chess game with AI vs AI and player vs AI modes, while researching or fetching suitable materials, assets, and textures online when necessary.**  
 **提示词：制作一个网页版中国象棋游戏，有AI vs AI 以及玩家 vs AI，需要资料 素材 纹理等可以联网查找**
   
 The baseline used the **dsh-router-standard 0.2.0 prompt** for one turn **without runtime injection**.  
