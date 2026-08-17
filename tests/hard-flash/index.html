@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中国象棋 · 网页版</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+
+  <!-- ================= 菜单 ================= -->
+  <section id="screen-menu" class="screen menu-screen">
+    <div class="menu-card">
+      <h1 class="logo">楚河<span class="logo-sub">汉界</span></h1>
+      <p class="subtitle">中国象棋 · Xiangqi</p>
+
+      <div class="mode-tabs">
+        <button id="mode-pvp" class="mode-btn active">玩家 vs AI</button>
+        <button id="mode-aiai" class="mode-btn">AI vs AI</button>
+      </div>
+
+      <div id="opts-pvp" class="opts">
+        <div class="opt-row">
+          <label for="opt-side">执子</label>
+          <select id="opt-side">
+            <option value="r" selected>红方（先手）</option>
+            <option value="b">黑方（后手）</option>
+          </select>
+        </div>
+        <div class="opt-row">
+          <label for="opt-diff">AI 难度</label>
+          <select id="opt-diff">
+            <option value="easy">简单</option>
+            <option value="medium">中等</option>
+            <option value="hard" selected>困难</option>
+            <option value="master">大师</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="opts-aiai" class="opts hidden">
+        <div class="opt-row">
+          <label for="opt-diff-r">红方 AI</label>
+          <select id="opt-diff-r">
+            <option value="easy">简单</option>
+            <option value="medium">中等</option>
+            <option value="hard" selected>困难</option>
+            <option value="master">大师</option>
+          </select>
+        </div>
+        <div class="opt-row">
+          <label for="opt-diff-b">黑方 AI</label>
+          <select id="opt-diff-b">
+            <option value="easy">简单</option>
+            <option value="medium" selected>中等</option>
+            <option value="hard">困难</option>
+            <option value="master">大师</option>
+          </select>
+        </div>
+        <div class="opt-row">
+          <label for="opt-speed">观战速度</label>
+          <input type="range" id="opt-speed" min="300" max="3000" step="100" value="900">
+          <span id="speed-val">0.9s</span>
+        </div>
+      </div>
+
+      <button id="btn-start" class="btn-primary">开 始 对 局</button>
+
+      <details class="rules-note">
+        <summary>玩法与规则说明</summary>
+        <ul>
+          <li>将/帅：九宫内走一格，双方将帅不得直面相照（面将）。</li>
+          <li>士/仕：九宫内斜走一格；象/相：田字斜走两步，塞象眼，不过河。</li>
+          <li>马：日字走法，蹩马腿；车：横直任意，不可越子。</li>
+          <li>炮：横直任意，吃子须隔一子（炮架）。</li>
+          <li>兵/卒：只进不退，过河后可横走。</li>
+          <li>将死或困毙方为负；循环局面/自然限着（60 回合）判和。</li>
+          <li>棋盘木纹取自网络素材（loremflickr），离线时自动使用内置程序化纹理。</li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= 对局 ================= -->
+  <section id="screen-game" class="screen game-screen hidden">
+    <div class="board-wrap">
+      <canvas id="board" width="600" height="664"></canvas>
+    </div>
+
+    <aside class="side-panel">
+      <div id="game-status" class="status turn">对局中</div>
+
+      <div class="captured-block">
+        <div class="cap-row"><span class="cap-label red-label">红吃</span><span id="cap-r" class="cap-list empty"></span></div>
+        <div class="cap-row"><span class="cap-label black-label">黑吃</span><span id="cap-b" class="cap-list empty"></span></div>
+      </div>
+
+      <div class="move-list-wrap">
+        <div class="panel-title">棋谱</div>
+        <ol id="move-list"></ol>
+      </div>
+
+      <div id="ai-info" class="ai-info"></div>
+
+      <div class="controls">
+        <button id="btn-undo" class="btn" title="悔一步棋">↩ 悔棋</button>
+        <button id="btn-resign" class="btn danger" title="认输">🏳 认输</button>
+        <button id="btn-pause" class="btn hidden">❚❚ 暂停</button>
+        <button id="btn-restart" class="btn">↻ 重新开始</button>
+        <button id="btn-back" class="btn">☰ 菜单</button>
+        <button id="btn-sound" class="btn">🔊 声音开</button>
+      </div>
+    </aside>
+  </section>
+
+</div>
+
+<script src="js/rules.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/texture.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/renderer.js"></script>
+<script src="js/game.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

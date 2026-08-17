@@ -1,0 +1,356 @@
+/* ===== 基础 ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+  background: #2b1a0f;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255, 200, 120, 0.08), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(80, 40, 10, 0.2), transparent 50%);
+  color: #f0d9b0;
+  min-height: 100vh;
+}
+
+.app-header {
+  text-align: center;
+  padding: 24px 16px 8px;
+}
+
+.app-header h1 {
+  font-size: 2rem;
+  letter-spacing: 4px;
+  color: #f5cf8c;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.subtitle {
+  color: #c9a06b;
+  margin-top: 4px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 20px;
+  max-width: 1080px;
+  margin: 16px auto;
+  padding: 0 16px;
+  align-items: start;
+}
+
+.panel {
+  background: #3a2413;
+  border: 1px solid #6b4423;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* ===== 顶栏 ===== */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.mode-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.tab {
+  padding: 8px 14px;
+  border: 1px solid #7a4f28;
+  border-radius: 8px 8px 0 0;
+  background: #4a2e18;
+  color: #e8c896;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.tab:hover {
+  background: #5d3a1e;
+}
+
+.tab.active {
+  background: #c9864a;
+  color: #241207;
+  font-weight: 700;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.controls select,
+.controls button {
+  padding: 7px 10px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #7a4f28;
+  background: #4a2e18;
+  color: #f0d9b0;
+  cursor: pointer;
+}
+
+.controls button.btn.primary {
+  background: #c9864a;
+  color: #241207;
+  font-weight: 700;
+  border-color: #8a5a2a;
+}
+
+.controls button.btn:hover {
+  filter: brightness(1.1);
+}
+
+.controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ===== 棋盘 ===== */
+.board-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+#board {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  aspect-ratio: 8 / 9;
+  background: #241207;
+  border-radius: 16px;
+  box-shadow:
+    inset 0 0 12px rgba(0, 0, 0, 0.5),
+    0 6px 16px rgba(0, 0, 0, 0.5);
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.board-svg {
+  position: absolute;
+  top: 4%;
+  left: 4%;
+  width: 92%;
+  height: 92%;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.35));
+}
+
+.board-bg {
+  stroke: none;
+}
+
+.board-line {
+  stroke: #5a321b;
+  stroke-width: 0.05;
+  stroke-linecap: round;
+}
+
+.board-line-outer {
+  stroke-width: 0.09;
+}
+
+.palace-line {
+  stroke-dasharray: 0.14, 0.12;
+}
+
+.river-text {
+  fill: #5a321b;
+  font-size: 0.34px;
+  font-family: "KaiTi", "STKaiti", serif;
+  letter-spacing: 0.12px;
+  opacity: 0.85;
+}
+
+/* 交叉点与棋子 */
+.intersections {
+  position: absolute;
+  top: 4%;
+  left: 4%;
+  width: 92%;
+  height: 92%;
+  pointer-events: none;
+}
+
+.square {
+  position: absolute;
+  width: 12%;
+  height: 11%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.square:hover .piece {
+  filter: brightness(1.12);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25), 0 4px 8px rgba(0,0,0,0.5);
+}
+
+.square.selected .piece {
+  box-shadow: 0 0 0 3px #ffe27a, 0 0 16px rgba(255, 226, 122, 0.65), 0 4px 8px rgba(0,0,0,0.5);
+}
+
+.square.last-move {
+  background: rgba(255, 215, 130, 0.18);
+  border-radius: 50%;
+}
+
+.square.legal::after {
+  content: '';
+  width: 22%;
+  aspect-ratio: 1;
+  background: rgba(60, 140, 60, 0.75);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  z-index: 5;
+}
+
+.square.legal.capture::after {
+  width: 70%;
+  height: 70%;
+  background: transparent;
+  border: 3px solid rgba(200, 60, 40, 0.85);
+  box-shadow: 0 0 10px rgba(220, 80, 50, 0.5);
+  border-radius: 50%;
+}
+
+.piece {
+  width: 72%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: clamp(14px, 3.1vmin, 28px);
+  font-weight: 700;
+  font-family: "KaiTi", "STKaiti", "Microsoft YaHei", serif;
+  position: relative;
+  z-index: 2;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255,255,255,0.85), rgba(255,255,255,0) 42%),
+    radial-gradient(circle at 50% 45%, #f7e1b2, #d9ab6a 70%, #a97437);
+  border: 2px solid #5a321b;
+  box-shadow:
+    0 0 0 2px #f0d9b0,
+    0 5px 10px rgba(0,0,0,0.55),
+    inset 0 -3px 6px rgba(90, 50, 27, 0.35);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+  transition: transform 0.12s, box-shadow 0.12s, filter 0.12s;
+}
+
+.piece.red {
+  color: #b32020;
+}
+
+.piece.black {
+  color: #1b1b1b;
+}
+
+/* ===== 状态栏 ===== */
+.status {
+  margin-top: 14px;
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: #4a2e18;
+  border: 1px solid #7a4f28;
+  border-radius: 10px;
+  color: #ffe6b3;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== 侧栏 ===== */
+.side-panel h2 {
+  font-size: 1.1rem;
+  color: #f5cf8c;
+  margin: 4px 0 10px;
+  border-bottom: 1px solid #6b4423;
+  padding-bottom: 6px;
+}
+
+.move-list {
+  min-height: 260px;
+  max-height: 320px;
+  overflow-y: auto;
+  background: #2a1a0e;
+  border: 1px solid #5e3b1e;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 16px;
+}
+
+.empty-hint {
+  color: #a9855a;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.move-entry {
+  font-size: 0.85rem;
+  padding: 4px 6px;
+  border-bottom: 1px dashed #4d321b;
+  color: #ead3a8;
+}
+
+.move-entry:last-child {
+  border-bottom: none;
+}
+
+.help-list {
+  padding-left: 20px;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: #d8b98a;
+}
+
+.app-footer {
+  text-align: center;
+  color: #9b7a53;
+  padding: 20px;
+  font-size: 0.8rem;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 850px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mode-tabs, .controls {
+    justify-content: center;
+  }
+}
