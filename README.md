@@ -140,7 +140,71 @@ Every completed file or TODO step is treated as a checkpoint where the surroundi
   
 Verification is a loop: test, debug, fix, and retest until the intended user-facing path works correctly.  
 **验证是一个闭环：测试、调试、修复、重新测试，直到预期的真实用户路径正确工作**。  
-  
+
+
+```text
+deep inspect
+↓
+deep planning
+↓
+todo decomposition
+↓
+inspect exact interfaces
+↓
+write file A
+↓
+FULL FILE REVIEW + automated validation
+↓
+write file B
+↓
+FULL FILE REVIEW + automated validation
+↓
+complete TODO 1
+↓
+CROSS-FILE INTEGRATION REVIEW
+↓
+revise plan if needed
+↓
+TODO 2
+↓
+...
+↓
+complete implementation
+↓
+REAL USER-FACING TEST
+↓
+debug
+↓
+fix
+↓
+retest
+↓
+final
+```
+```
+1. CONTEXT
+   先理解已有工作，不重复。
+
+2. DEEP PLAN
+   实现前充分 inspect，把需求、架构、依赖、接口、
+   integration、edge cases、failure modes、verification 想清楚。
+
+3. EXPAND BUILDS
+   宽泛 build 自动展开完整需求和子系统，不缩水成 demo。
+
+4. IMPLEMENT AGAINST REALITY
+   基于真实代码和真实接口实现。
+   不确定 symbol/API 就查定义，禁止凭记忆编造。
+
+5. CHECKPOINT
+   每完成一个文件/TODO，重新读取和复核，
+   检查 symbol、signature、state、call path、integration，
+   并执行适用的 compile/typecheck/test。
+
+6. REAL-PATH VERIFICATION
+   最后跑真实用户路径。
+   失败就 debug → fix → retest，直到正确。
+```
 ## Three first-turn modes  
 ## 三种首轮模式  
   
