@@ -1,0 +1,20 @@
+{
+  "name": "dsh-agent-preset-standard-plus",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Agent preset Standard+ for DeepSeek Harness: the shipped Standard preset with an extended engineering persona prompt.",
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "engines": {
+      "dsh": ">=0.1.7-rc.1 <0.2.0"
+    }
+  }
+}

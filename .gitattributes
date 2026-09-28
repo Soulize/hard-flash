@@ -1,0 +1,4 @@
+# Keep the patch file LF-only: it carries a YAML block scalar whose content is
+# prompt text, and no line-ending churn should reach a consumer's checkout.
+* text=auto eol=lf
+*.yml text eol=lf
